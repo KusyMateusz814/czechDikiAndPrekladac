@@ -13,16 +13,23 @@ def def_slovnicek_cz(args):
     options.add_argument('--headless')
     driver = webdriver.Firefox(options=options)
     url=''
-    if args.czeski:
+    if args.czeskipolski:
         url="https://www.slovnicek.cz/cesko-polsky-prekladac"
-    elif args.polski:
+    elif args.polskiczeski:
         url="https://www.slovnicek.cz/polsko-cesky-prekladac"
+    elif args.polskirosyjski:
+        url="https://www.slovnicek.cz/polsko-rusky-prekladac"
+    elif args.rosyjskipolski:
+        url="https://www.slovnicek.cz/rusko-polsky-prekladac"
     else:
         url='brak'
     if args.loghami:
         logging.debug("wygenerowany url")
     sentence_var=args.sentence    
     driver.get(url)
+    #refresh uzylem, bo przy pierwszym odpaleniu
+    #wczytuje czesko-angielski
+    driver.refresh()
     textArea=driver.find_element_by_xpath('//*[@id="translate_textarea"]')
     textArea.click()
     textArea.send_keys(sentence_var)
@@ -34,21 +41,19 @@ def def_slovnicek_cz(args):
     logging.debug(prekladtext.text)
     logging.debug(slovniktext.text)
     print('překlad: '+ prekladtext.text +'\n' "slovnik: " + slovniktext.text)
-    sleep(10)
+    sleep(1)
     driver.quit()
 
 def def_params():
     parser = argparse.ArgumentParser(
         description='A test script for http://stackoverflow.com/q/14097061/78845'
     )
-    parser.add_argument("-l", "--loghami", action='store_true', help="increase output verbosity",
-                        required=False)
-    parser.add_argument("-cz", "--czeski", action='store_true', help="z czeskiego na polski",
-                        required=False)
-    parser.add_argument("-pl", "--polski", action='store_true', help="z polskiego na czeski",
-                        required=False)
+    parser.add_argument("-l", "--loghami", action='store_true', help="increase output verbosity", required=False)
+    parser.add_argument("-cz-pl", "--czeskipolski", action='store_true', help="z czeskiego na polski", required=False)
+    parser.add_argument("-pl-cz", "--polskiczeski", action='store_true', help="z polskiego na czeski", required=False)
+    parser.add_argument("-pl-rus", "--polskirosyjski", action='store_true', help="z polskiego na rosyjski", required=False)
+    parser.add_argument("-rus-pl", "--rosyjskipolski", action='store_true', help="z rosyjskiego na polski", required=False)
     parser.add_argument("-sent", "--sentence", help="sentencja do przetlumaczenia", required=True)
-
     args = parser.parse_args() # parsujemy argumenty aby wyłuskać przekazane w nich wartosci i wyświetlamy je na ekranie
     if args.loghami:
         logging.basicConfig(level=logging.DEBUG)
