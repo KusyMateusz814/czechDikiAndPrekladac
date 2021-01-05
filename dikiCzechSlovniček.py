@@ -1,6 +1,6 @@
 from selenium import webdriver
 from selenium.webdriver.common.keys import Keys
-from time import sleep 
+from time import sleep
 import os
 import sys
 import argparse
@@ -9,12 +9,18 @@ import logging
 sentence_var=''
 
 def def_slovnicek_cz(args):
-    options = webdriver.FirefoxOptions()
+    if args.browser=="chrome":
+        options = webdriver.ChromeOptions()
+    else:
+        options = webdriver.FirefoxOptions()
     if args.loghami:
         options.headless=False
     else:
         options.headless=True
-    driver = webdriver.Firefox(options=options)
+    if args.browser=="chrome":
+       driver = webdriver.Chrome(options=options)
+    else:
+        driver = webdriver.Firefox(options=options)
     url=''
     if args.czeskipolski:
         url="https://www.slovnicek.cz/cesko-polsky-prekladac"
@@ -57,6 +63,7 @@ def def_params():
     parser.add_argument("-pl-rus", "--polskirosyjski", action='store_true', help="z polskiego na rosyjski", required=False)
     parser.add_argument("-rus-pl", "--rosyjskipolski", action='store_true', help="z rosyjskiego na polski", required=False)
     parser.add_argument("-sent", "--sentence", help="sentencja do przetlumaczenia", required=True)
+    parser.add_argument("-br", "--browser", help="wpisz firefox badz chrome", required=False, default="chrome")
     args = parser.parse_args() # parsujemy argumenty aby wyłuskać przekazane w nich wartosci i wyświetlamy je na ekranie
     if args.loghami:
         logging.basicConfig(level=logging.DEBUG)
