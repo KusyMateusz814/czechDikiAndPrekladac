@@ -10,7 +10,10 @@ sentence_var=''
 
 def def_slovnicek_cz(args):
     options = webdriver.FirefoxOptions()
-    options.add_argument('--headless')
+    if args.loghami:
+        options.headless=False
+    else:
+        options.headless=True
     driver = webdriver.Firefox(options=options)
     url=''
     if args.czeskipolski:
@@ -25,7 +28,7 @@ def def_slovnicek_cz(args):
         url='brak'
     if args.loghami:
         logging.debug("wygenerowany url")
-    sentence_var=args.sentence    
+    sentence_var=args.sentence
     driver.get(url)
     #refresh uzylem, bo przy pierwszym odpaleniu
     #wczytuje czesko-angielski
@@ -42,7 +45,7 @@ def def_slovnicek_cz(args):
     logging.debug(slovniktext.text)
     print('překlad: '+ prekladtext.text +'\n' "slovnik: " + slovniktext.text)
     sleep(1)
-    driver.quit()
+    driver.close() #driver.quit(), driver close zamyka wszystkie testowe firefoxy
 
 def def_params():
     parser = argparse.ArgumentParser(
@@ -71,4 +74,4 @@ def main():
     def_slovnicek_cz(args)
 
 if __name__ == "__main__":
-    main() 
+    main()
