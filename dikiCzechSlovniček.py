@@ -25,7 +25,7 @@ def def_slovnicek_cz(args):
         url='brak'
     if args.loghami:
         logging.debug("wygenerowany url")
-    sentence_var=args.sentence    
+    sentence_var=args.sentence
     driver.get(url)
     #refresh uzylem, bo przy pierwszym odpaleniu
     #wczytuje czesko-angielski
@@ -71,4 +71,4 @@ def main():
     def_slovnicek_cz(args)
 
 if __name__ == "__main__":
-    main() 
+    main()
