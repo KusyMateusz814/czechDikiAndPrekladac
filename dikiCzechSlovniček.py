@@ -46,7 +46,7 @@ def def_slovnicek_cz(args):
     textArea=driver.find_element_by_xpath('//*[@id="translate_textarea"]')
     textArea.click()
     textArea.send_keys(sentence_var)
-    prelozitBtn=driver.find_element_by_xpath('//*[@id="translate_button"]')
+    prelozitBtn=driver.find_element_by_xpath('//*[@id="top-tran-translate-button]')
     prelozitBtn.click()
     sleep(1)
     prekladtext=driver.find_element_by_xpath('/html/body/section[1]/div[2]/div[2]/div[1]/div/div[2]')
