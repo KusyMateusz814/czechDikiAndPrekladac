@@ -39,6 +39,10 @@ def def_slovnicek_cz(args):
     #refresh uzylem, bo przy pierwszym odpaleniu
     #wczytuje czesko-angielski
     driver.refresh()
+    ##start popup of web
+    sleep(0.1)
+    souhlas_button=driver.find_element_by_xpath('/html/body/div[2]/div[2]/div[1]/div[2]/div[2]/button[1]')
+    souhlas_button.click()
     textArea=driver.find_element_by_xpath('//*[@id="translate_textarea"]')
     textArea.click()
     textArea.send_keys(sentence_var)
